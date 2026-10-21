@@ -1,0 +1,180 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --font-heading: var(--font-sans);
+  --font-sans: ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, monospace;
+}
+
+:root {
+  color-scheme: dark;
+
+  /* VibeSync — deep zinc surfaces with an emerald neon accent */
+  --background: #09090b; /* zinc-950 */
+  --foreground: #fafafa; /* zinc-50 */
+  --card: #18181b; /* zinc-900 */
+  --card-foreground: #fafafa;
+  --popover: #18181b;
+  --popover-foreground: #fafafa;
+  --primary: #059669; /* emerald-600 */
+  --primary-foreground: #ecfdf5; /* emerald-50 */
+  --secondary: #27272a; /* zinc-800 */
+  --secondary-foreground: #e4e4e7;
+  --muted: #27272a;
+  --muted-foreground: #a1a1aa; /* zinc-400 */
+  --accent: #27272a;
+  --accent-foreground: #fafafa;
+  --destructive: #f43f5e;
+  --destructive-foreground: #fff1f2;
+  --border: #27272a; /* zinc-800 */
+  --input: #27272a;
+  --ring: #10b981; /* emerald-500 */
+  --info: #38bdf8;
+  --info-foreground: #082f49;
+  --success: #10b981;
+  --success-foreground: #022c22;
+  --warning: #fbbf24;
+  --warning-foreground: #2a2110;
+  --radius: 0.75rem;
+
+  --canvas: #09090b;
+  --panel: #18181b;
+  --ink: #fafafa;
+  --line: #27272a;
+  --neon: #10b981;
+}
+
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  min-height: 100%;
+}
+body {
+  margin: 0;
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: var(--font-sans, ui-sans-serif, system-ui, sans-serif);
+  -webkit-font-smoothing: antialiased;
+}
+button,
+textarea {
+  font: inherit;
+}
+button {
+  cursor: pointer;
+}
+
+/* Browser surfaces carry the palette too (selection, caret) */
+::selection {
+  background: rgb(16 185 129 / 0.32);
+  color: #ffffff;
+}
+textarea {
+  caret-color: var(--neon);
+}
+
+/* Assistant message copy */
+.message-copy p {
+  margin: 0 0 0.75rem;
+}
+.message-copy p:last-child {
+  margin-bottom: 0;
+}
+.message-copy strong {
+  color: #ffffff;
+  font-weight: 600;
+}
+.message-copy a {
+  color: #34d399;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Composer: neon focus ring, compact auto-growing textarea */
+.composer-focus {
+  transition:
+    border-color 0.18s ease,
+    box-shadow 0.18s ease;
+}
+.composer-focus:focus-within {
+  border-color: rgb(16 185 129 / 0.45);
+  box-shadow: 0 0 0 3px rgb(16 185 129 / 0.12);
+}
+.composer-field [data-slot="textarea"] {
+  min-height: 0;
+  max-height: 12rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.9375rem;
+  line-height: 1.5rem;
+  overflow-y: auto;
+}
+.composer-field [data-slot="textarea"]::placeholder {
+  color: var(--muted-foreground);
+  opacity: 1;
+}
+
+/* Themed scrollbars for scroll regions */
+.feed-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #3f3f46 transparent;
+}
+.feed-scroll::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+.feed-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.feed-scroll::-webkit-scrollbar-thumb {
+  background: #3f3f46;
+  border: 3px solid transparent;
+  border-radius: 9999px;
+  background-clip: content-box;
+}
+.feed-scroll::-webkit-scrollbar-thumb:hover {
+  background: #52525b;
+  background-clip: content-box;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .fade-in {
+    animation: fade-in 0.35s ease-out both;
+  }
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(7px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
