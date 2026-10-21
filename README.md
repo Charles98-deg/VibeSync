@@ -49,8 +49,7 @@ Set the following **server-side** values in `.env.local`:
 | Variable | Purpose |
 | --- | --- |
 | `QLOO_API_KEY` | Event-issued Qloo credential. Never commit it, log it, or expose it to the browser. |
-| `GROQ_API_KEY` | Groq key for synthesis (default provider). |
-| `ANTHROPIC_API_KEY` | Optional; enables Claude when present. |
+| `GOOGLE_GENERATIVE_AI_API_KEY` | Google AI Studio key for Gemini 3 Flash (preview; synthesis + entity extraction). |
 | `QLOO_API_URL` | Optional. Defaults to `https://hackathon.api.qloo.com`. |
 
 ```sh

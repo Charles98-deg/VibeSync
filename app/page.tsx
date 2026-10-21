@@ -58,11 +58,6 @@ import { cn } from "@/lib/utils";
 // Constants
 // ---------------------------------------------------------------------------
 
-const providers = [
-  { label: "Groq", value: "groq" },
-  { label: "Anthropic", value: "anthropic" },
-];
-
 const navItems = [
   { label: "Discover", icon: Compass },
   { label: "Saved", icon: Bookmark },
@@ -255,7 +250,6 @@ const chatGroups = [
 
 export default function Home() {
   const [input, setInput] = useState("");
-  const [provider, setProvider] = useState<"groq" | "anthropic">("groq");
   const [showSidebar, setShowSidebar] = useState(true);
   const [activeChat, setActiveChat] = useState("c1");
   // Lateral mode: city vibe, lighting design, sensory dining, support.
@@ -277,9 +271,9 @@ export default function Home() {
     () =>
       new DefaultChatTransport({
         api: "/api/chat",
-        body: { provider, userLocation, mode },
+        body: { userLocation, mode },
       }),
-    [provider, userLocation, mode],
+    [userLocation, mode],
   );
   const { messages, sendMessage, status, error, setMessages } = useChat({
     transport,
@@ -830,28 +824,13 @@ export default function Home() {
                 className="composer-field block w-full"
               />
               <div className="mt-1 flex items-center justify-between gap-2 px-1">
-                <Select
-                  items={providers}
-                  value={provider}
-                  onValueChange={(value) =>
-                    setProvider(value as "groq" | "anthropic")
-                  }
-                >
-                  <SelectTrigger
-                    aria-label="Model provider"
-                    size="sm"
-                    className="h-8 min-h-8 w-auto min-w-0 gap-1.5 rounded-lg border-zinc-800 bg-zinc-950/50 px-2.5 text-[12px] text-zinc-300 shadow-none hover:border-zinc-700 hover:bg-zinc-800"
-                  >
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectPopup align="start" className="min-w-40">
-                    {providers.map((item) => (
-                      <SelectItem key={item.value} value={item.value}>
-                        {item.label}
-                      </SelectItem>
-                    ))}
-                  </SelectPopup>
-                </Select>
+                <span className="flex h-8 items-center gap-1.5 rounded-lg border border-zinc-800 bg-zinc-950/50 px-2.5 text-[12px] text-zinc-300">
+                  <Sparkles
+                    aria-hidden="true"
+                    className="size-3 text-emerald-400"
+                  />
+                  Gemini 3 Flash
+                </span>
 
                 <div className="flex items-center gap-1.5">
                   {messages.length > 0 && (

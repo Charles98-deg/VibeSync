@@ -1,5 +1,4 @@
-import { anthropic } from "@ai-sdk/anthropic";
-import { groq } from "@ai-sdk/groq";
+import { google } from "@ai-sdk/google";
 import {
   convertToModelMessages,
   generateText,
@@ -28,6 +27,13 @@ import {
 } from "@/lib/qloo";
 
 export const runtime = "nodejs";
+
+/**
+ * Gemini model used for synthesis and entity extraction.
+ * `gemini-2.5-flash` now returns 404 for new API keys; the preview Flash model
+ * is the current working target (verified for function calling + JSON schema).
+ */
+const GEMINI_MODEL = "gemini-3-flash-preview";
 
 // ---------------------------------------------------------------------------
 // Schemas
@@ -186,7 +192,6 @@ Example: "Studio Ghibli tells me a lot about how you move through the world. Whe
 export async function POST(request: Request) {
   let body: {
     messages?: UIMessage[];
-    provider?: "groq" | "anthropic";
     userLocation?: string;
     mode?: string;
     shortlist?: unknown;
@@ -201,22 +206,19 @@ export async function POST(request: Request) {
     return Response.json({ error: "Send at least one chat message." }, { status: 400 });
   }
 
-  const provider = body.provider === "anthropic" ? "anthropic" : "groq";
-  const model =
-    provider === "anthropic"
-      ? process.env.ANTHROPIC_API_KEY
-        ? anthropic("claude-sonnet-4-6")
-        : null
-      : process.env.GROQ_API_KEY
-        ? groq("openai/gpt-oss-120b")
-        : null;
-  if (!model) {
-    const keyName = provider === "anthropic" ? "ANTHROPIC_API_KEY" : "GROQ_API_KEY";
+  // Gemini is the single synthesis + extraction backend. The Google provider
+  // reads GOOGLE_GENERATIVE_AI_API_KEY from the server environment.
+  if (!process.env.GOOGLE_GENERATIVE_AI_API_KEY) {
     return Response.json(
-      { error: `Add ${keyName} to .env.local to start chatting.` },
+      {
+        error:
+          "Add GOOGLE_GENERATIVE_AI_API_KEY to .env.local to start chatting.",
+      },
       { status: 503 },
     );
   }
+
+  const model = google(GEMINI_MODEL);
 
   const mode = parseVibeMode(body.mode);
   const directive = MODE_DIRECTIVES[mode];

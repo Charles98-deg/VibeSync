@@ -9,8 +9,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@ai-sdk/anthropic": "latest",
-    "@ai-sdk/groq": "^4.0.62",
+    "@ai-sdk/google": "^4.0.102",
     "@ai-sdk/react": "latest",
     "@base-ui/react": "^1.9.0",
     "ai": "latest",
